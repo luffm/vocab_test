@@ -41,24 +41,6 @@
   var meaning=new Array(10);
   var index=new Array(10);
 
-  //---- External Files
-  //var bunFile="C:\\Documents and Settings\\Mark\\My Documents\\Japanese\\VocabTest\\sentences.dat";
-  //var trnFile="C:\\Documents and Settings\\Mark\\My Documents\\Japanese\\VocabTest\\translations.dat";
-  //var dicFile="C:\\Documents and Settings\\Mark\\My Documents\\Japanese\\VocabTest\\examples.dat";
-  //var scoFile="C:\\Documents and Settings\\Mark\\My Documents\\Japanese\\VocabTest\\scores.dat";
-  //var grmFile="C:\\Documents and Settings\\Mark\\My Documents\\Japanese\\VocabTest\\grammar.dat";
-
-  var wordCount;
-
-
-  //============================================================================
-
-  function pickSentence() {
-    var i=Math.floor(Math.random()*bunN);
-    if(i==bunN) i--;
-    return i;
-  }
-
   //============================================================================
 
   function readSentences() {
@@ -2671,7 +2653,13 @@
   }
 
   //============================================================================
-  //============================================================================
+
+  function pickSentence() {
+    var i=Math.floor(Math.random()*bunN);
+    if(i==bunN) i--;
+    return i;
+  }
+
   //============================================================================
 
   function mainLoop() {
@@ -2701,7 +2689,9 @@
       meaning[i]='';
       index[i]=-1;
     }
-    wordCount=0;   // global var
+
+    var wordCount=0;
+
     for(i=0; i<bunText.length; i++) {
       var ch=bunText.substr(i,1);
       if(ch=='<') {
@@ -2709,12 +2699,10 @@
           bunRow+='<td nowrap valign="top">'+unmarked+'</td>';
           refRow+='<td nowrap valign="top"></td>';
         }
-        //compound[wordCount]='';
         unmarkedFlag=false;
         compoundFlag=true;
         readingFlag=false;
       } else if(ch=='"' && !readingFlag) {
-        //reading='';
         unmarkedFlag=false;
         compoundFlag=false;
         readingFlag=true;
@@ -2784,8 +2772,6 @@
       }
     }
 
-    //if(document.getElementById('reading1').disabled==false) document.getElementById('reading1').focus();
-
   }
 
   //============================================================================
@@ -2795,39 +2781,6 @@
   //============================================================================
 
   function processSubmit() {
-
-/*
-    var i;
-
-    for(i=1; i<=wordCount; i++) {
-      var guess=document.getElementById('reading'+i).value;
-
-      if(guess!='' && (document.getElementById('meaning'+i).innerHTML=='' ||
-                       document.getElementById('meaning'+i).innerHTML.substr(1,10)=='last guess')) {
-        if(guess==reading[i-1]) {
-          document.getElementById('meaning'+i).innerHTML=meaning[i-1];
-          document.getElementById('reading'+i).disabled=true;
-          document.getElementById('button'+i).style.border="1px white solid"
-          document.getElementById('button'+i).disabled=true;
-          for(var j=0; j<wordCount; j++) {
-            //alert("i="+i+" j="+j+" final="+(((i+j) % wordCount)+1))
-            if(document.getElementById('reading'+(((i+j) % wordCount)+1)).value=='') {
-              document.getElementById('reading'+(((i+j) % wordCount)+1)).focus();
-              break;
-            }
-          }
-          //if(i<wordCount) {
-          //  document.getElementById('reading'+(i+1)).focus();
-          //}
-        } else {
-          document.getElementById('meaning'+i).innerHTML='(last guess : '+guess+')';
-          document.getElementById('reading'+i).value='';
-          document.getElementById('reading'+i).focus();
-        }
-      }
-    }
-*/
-
   }
 
   //============================================================================
@@ -2864,19 +2817,7 @@
     document.getElementById('reading'+i).disabled=true;
     document.getElementById('button'+i).style.border="1px white solid"
     document.getElementById('button'+i).disabled=true;
-
-/*
-    for(var j=0; j<wordCount; j++) {
-      //alert("i="+i+" j="+j+" final=reading"+(((i+j) % wordCount)+1));
-      if(document.getElementById('reading'+(((i+j) % wordCount)+1)).value=='') {
-        document.getElementById('button'+(((i+j) % wordCount)+1)).focus();
-        break;
-      }
-    }
-*/
-
   }
-
 
 
 </script>
