@@ -1,0 +1,309 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN"
+  "http://www.w3.org/TR/html4/strict.dtd">
+
+<html lang="en">
+
+<head>
+  <title>Vocabulary Test</title>
+  <meta http-equiv="content-type" content="text/html; charset=utf-8"/>
+  <link rel="shortcut icon" href="favicon.ico" />
+  <style type="text/css">
+    span:hover {font:25pt 'MS Mincho'}
+  </style>
+</head>
+
+<script src="../jdic/jdic.js"></script>
+<script src="../jdic/grammar.js"></script>
+
+<script type="text/javascript" charset="utf-8">
+
+  var debug=!true;
+
+  //---- Sentences Array
+  var bun=new Array(1000);
+  var bunN;
+  var bunIndex;
+
+  //---- Translations Array
+  var trn=new Array(1000);
+  var trnN;
+
+  //---- Dictionary Array
+  var dic = new jdic();
+
+  //---- Grammar Array
+  var grm=new Array(1000);
+  var grmN;
+
+  var maxWords=10;
+  var compound=new Array(10);
+  var reading=new Array(10);
+  var meaning=new Array(10);
+  var index=new Array(10);
+
+  //============================================================================
+
+  function pickSentence() {
+    var i=Math.floor(Math.random()*bunN);
+    if(i==bunN) i--;
+    return i;
+  }
+
+  //============================================================================
+
+  function readSentences() {
+    bunN=6;
+    bun[0  ]='きのう<外務省"がいむしょう">からパスポートをもらいました。';
+    bun[1  ]='きのう<大使館"たいしかん">からビザをもらいました。';
+    bun[2  ]='きのう<銀行"ぎんこう">から<小切手"こぎって">をもらいました。';
+    bun[3  ]='きのう<学校"がっこう">から<証明書"しょうめいしょ">をもらいました。';
+    bun[4  ]='きのう<文部科学省"もんぶかがくしょう">から<通知"つうち">をもらいました。';
+    bun[5  ]='きのう<事務所"じむしょ">から<旅費"りょひ">をもらいました。';
+  }
+
+  //============================================================================
+
+  function readTranslations() {
+    trnN=6;
+    trn[0  ]="1-1-例 I received the passport from the Foreign Office yesterday.";
+    trn[1  ]="1-1-① I received the visa from the Embassy yesterday.";
+    trn[2  ]="1-1-② I received a cheque from the bank yesterday.";
+    trn[3  ]="1-1-③ I received a certificate from ?? yesterday.";
+    trn[4  ]="1-2-④ I received notice from the Ministry of Education yesterday.";
+    trn[5  ]="1-2-⑤ I received travel expenses from the office yesterday.";
+  }
+
+  //============================================================================
+
+  function readGrammar() {
+    grmN=0;
+  }
+
+  //============================================================================
+
+  function pickSentence() {
+    var i=Math.floor(Math.random()*bunN);
+    if(i==bunN) i--;
+    return i;
+  }
+
+  //============================================================================
+
+  function mainLoop() {
+    bunIndex=pickSentence();
+    var bunText=bun[bunIndex];
+
+    document.getElementById('trnFrameText').innerHTML='';
+    document.getElementById('grmFrameText').innerHTML='';
+    document.getElementById('chpFrameText').innerHTML='';
+
+    var bunRow='';
+    var refRow='';
+
+    var unmarked='';
+
+    var unmarkedFlag=true;
+    var compoundFlag=false;
+    var readingFlag=false;
+
+    var refChar;
+
+    var i, j;
+
+    for(i=0; i<maxWords; i++) {
+      compound[i]='';
+      reading[i]='';
+      meaning[i]='';
+      index[i]=-1;
+    }
+
+    var wordCount=0;
+
+    for(i=0; i<bunText.length; i++) {
+      var ch=bunText.substr(i,1);
+      if(ch=='<') {
+        if(unmarked!='') {
+          bunRow+='<td nowrap valign="top">'+unmarked+'</td>';
+          refRow+='<td nowrap valign="top"></td>';
+        }
+        unmarkedFlag=false;
+        compoundFlag=true;
+        readingFlag=false;
+      } else if(ch=='"' && !readingFlag) {
+        unmarkedFlag=false;
+        compoundFlag=false;
+        readingFlag=true;
+      } else if(ch=='"' && readingFlag) {
+        unmarkedFlag=false;
+        compoundFlag=false;
+        readingFlag=false;
+      } else if(ch=='>') {
+        index[wordCount]=getMeaning(wordCount);
+        if(index[wordCount]!=-1) {
+          meaning[wordCount]=dic.word[index[wordCount]]+'&nbsp;'+dic.meaning[index[wordCount]];
+        }
+
+        bunRow+='<td nowrap valign="top"><span id="bun'+wordCount+'">'+compound[wordCount]+'</span></td>';
+        switch(wordCount) {
+          case 0: refChar='①'; break;
+          case 1: refChar='②'; break;
+          case 2: refChar='③'; break;
+          case 3: refChar='④'; break;
+          case 4: refChar='⑤'; break;
+          case 5: refChar='⑥'; break;
+          case 6: refChar='⑦'; break;
+          case 7: refChar='⑧'; break;
+          case 8: refChar='⑨'; break;
+          case 9: refChar='⑩'; break;
+          default: refChar='○';
+        }
+        refRow+='<td nowrap valign="top" style="border-top-style:solid;border-top-color:black;">'+refChar+'</td>';
+        wordCount++;
+        unmarked='';
+        unmarkedFlag=true;
+        compoundFlag=false;
+        readingFlag=false;
+      } else if(ch!="\n") {
+        if(unmarkedFlag) {
+          unmarked+=ch;
+        } else if(compoundFlag) {
+          compound[wordCount]+=ch;
+        } else if(readingFlag) {
+          reading[wordCount]+=ch;
+        }
+      }
+    }
+
+    if(unmarked!='') {
+      bunRow+='<td nowrap valign="top">'+unmarked+'</td>';
+      refRow+='<td nowrap valign="top"></td>';
+    }
+
+    document.getElementById('bunFrameText').innerHTML='<table><tr>'+bunRow+'</tr><tr>'+refRow+'</tr></table>';
+
+    for (i=1; i<=maxWords; i++) {
+      document.getElementById('meaning'+i).innerHTML='';
+
+      if(i<=wordCount) {
+        document.getElementById('reading'+i).disabled=true;
+        document.getElementById('button'+i).disabled=false;
+        document.getElementById('reading'+i).style.border="1px black solid"
+        document.getElementById('button'+i).style.border="1px black solid"
+        document.getElementById('reading'+i).value='';
+      } else {
+        document.getElementById('reading'+i).value='';
+        document.getElementById('reading'+i).disabled=true;
+        document.getElementById('button'+i).disabled=true;
+        document.getElementById('reading'+i).style.border="1px white solid"
+        document.getElementById('button'+i).style.border="1px white solid"
+      }
+    }
+
+    //if(document.getElementById('reading1').disabled==false) document.getElementById('reading1').focus();
+
+  }
+
+  //============================================================================
+
+  function do_nothing() {}
+
+  //============================================================================
+
+  function processSubmit() {
+  }
+
+  //============================================================================
+
+  function revealMeaning() {
+    document.getElementById('trnFrameText').innerHTML='<table><tr><td>'+trn[bunIndex]+'</td></tr></table>';
+
+    var grammar='';
+
+    var readLine;
+    var grmIndex, trnIndex, sumIndex;
+    for(i=0; i<grmN; i++) {
+      readLine=grm[i];
+      grmIndex = readLine.replace(/^([^ ]*) .*$/, "$1");
+      trnIndex = trn[bunIndex].replace(/^([^ ]*)[^ ][^ ] .*$/, "$1");
+      sumIndex = trnIndex.replace(/^(.*)[-.][\d]*[abc]?$/, "$1");
+      //if(i >= 832) alert("revealMeaning(): i="+i+" grmIndex="+grmIndex+" trnIndex="+trnIndex+" sumIndex="+sumIndex+" readLine="+readLine);
+
+      if(grmIndex==trnIndex) {
+        readLine = grm[i].replace(/^[^ ]* (.*)$/, "$1");
+        grammar+='<tr><td>'+readLine+'</td></tr>';
+      } else if(grmIndex==sumIndex) {
+        document.getElementById('chpFrameText').innerHTML='<table><tr><td>'+readLine+'</td></tr></table>';
+      }
+    }
+    document.getElementById('grmFrameText').innerHTML='<table>'+grammar+'</table>';
+  }
+
+  //============================================================================
+
+  function reveal(i) {
+    document.getElementById('reading'+i).value=reading[i-1];
+    document.getElementById('meaning'+i).innerHTML=meaning[i-1];
+    document.getElementById('reading'+i).disabled=true;
+    document.getElementById('button'+i).style.border="1px white solid"
+    document.getElementById('button'+i).disabled=true;
+  }
+
+
+</script>
+
+
+
+
+
+
+
+
+<body>
+
+<div id="bunFrameText" class="scroll-box" style="margin:5px; border:1px solid #b0b0b0;background-color:#f3f3f3;font:12pt 'MS Gothic';overflow-x:auto;overflow-y:auto;height:60px;width:100%">
+</div>
+
+<form name="entryForm" action="javascript:revealMeaning();" method="POST" onsubmit="do_nothing();">
+<div style="margin:5px; border:1px solid #b0b0b0; background-color:#f3f3f3; width:100%">
+<table>
+<tr><td>①&nbsp;<INPUT type="button" id="button1"  value="Reveal" style="width:75px; border:1px black solid; margin:0px; padding:0px; color:green" onclick="reveal(1) "></td><td><INPUT type="text" id="reading1"  size="15" maxlength="30" style="width:125px; font:10pt Courier" value="" onchange="javascript:do_nothing()"></td><td id="meaning1"  style="width:75%; font:10pt 'MS Gothic'"></td></tr>
+<tr><td>②&nbsp;<INPUT type="button" id="button2"  value="Reveal" style="width:75px; border:1px black solid; margin:0px; padding:0px; color:green" onclick="reveal(2)" ></td><td><INPUT type="text" id="reading2"  size="15" maxlength="30" style="width:125px; font:10pt Courier" value="" onchange="javascript:do_nothing()"></td><td id="meaning2"  style="width:75%; font:10pt 'MS Gothic'"></td></tr>
+<tr><td>③&nbsp;<INPUT type="button" id="button3"  value="Reveal" style="width:75px; border:1px black solid; margin:0px; padding:0px; color:green" onclick="reveal(3)" ></td><td><INPUT type="text" id="reading3"  size="15" maxlength="30" style="width:125px; font:10pt Courier" value="" onchange="javascript:do_nothing()"></td><td id="meaning3"  style="width:75%; font:10pt 'MS Gothic'"></td></tr>
+<tr><td>④&nbsp;<INPUT type="button" id="button4"  value="Reveal" style="width:75px; border:1px black solid; margin:0px; padding:0px; color:green" onclick="reveal(4)" ></td><td><INPUT type="text" id="reading4"  size="15" maxlength="30" style="width:125px; font:10pt Courier" value="" onchange="javascript:do_nothing()"></td><td id="meaning4"  style="width:75%; font:10pt 'MS Gothic'"></td></tr>
+<tr><td>⑤&nbsp;<INPUT type="button" id="button5"  value="Reveal" style="width:75px; border:1px black solid; margin:0px; padding:0px; color:green" onclick="reveal(5)" ></td><td><INPUT type="text" id="reading5"  size="15" maxlength="30" style="width:125px; font:10pt Courier" value="" onchange="javascript:do_nothing()"></td><td id="meaning5"  style="width:75%; font:10pt 'MS Gothic'"></td></tr>
+<tr><td>⑥&nbsp;<INPUT type="button" id="button6"  value="Reveal" style="width:75px; border:1px black solid; margin:0px; padding:0px; color:green" onclick="reveal(6)" ></td><td><INPUT type="text" id="reading6"  size="15" maxlength="30" style="width:125px; font:10pt Courier" value="" onchange="javascript:do_nothing()"></td><td id="meaning6"  style="width:75%; font:10pt 'MS Gothic'"></td></tr>
+<tr><td>⑦&nbsp;<INPUT type="button" id="button7"  value="Reveal" style="width:75px; border:1px black solid; margin:0px; padding:0px; color:green" onclick="reveal(7)" ></td><td><INPUT type="text" id="reading7"  size="15" maxlength="30" style="width:125px; font:10pt Courier" value="" onchange="javascript:do_nothing()"></td><td id="meaning7"  style="width:75%; font:10pt 'MS Gothic'"></td></tr>
+<tr><td>⑧&nbsp;<INPUT type="button" id="button8"  value="Reveal" style="width:75px; border:1px black solid; margin:0px; padding:0px; color:green" onclick="reveal(8)" ></td><td><INPUT type="text" id="reading8"  size="15" maxlength="30" style="width:125px; font:10pt Courier" value="" onchange="javascript:do_nothing()"></td><td id="meaning8"  style="width:75%; font:10pt 'MS Gothic'"></td></tr>
+<tr><td>⑨&nbsp;<INPUT type="button" id="button9"  value="Reveal" style="width:75px; border:1px black solid; margin:0px; padding:0px; color:green" onclick="reveal(9)" ></td><td><INPUT type="text" id="reading9"  size="15" maxlength="30" style="width:125px; font:10pt Courier" value="" onchange="javascript:do_nothing()"></td><td id="meaning9"  style="width:75%; font:10pt 'MS Gothic'"></td></tr>
+<tr><td>⑩&nbsp;<INPUT type="button" id="button10" value="Reveal" style="width:75px; border:1px black solid; margin:0px; padding:0px; color:green" onclick="reveal(10)"></td><td><INPUT type="text" id="reading10" size="15" maxlength="30" style="width:125px; font:10pt Courier" value="" onchange="javascript:do_nothing()"></td><td id="meaning10" style="width:75%; font:10pt 'MS Gothic'"></td></tr>
+</table>
+</div>
+<div style="margin:5px; border:1px solid #b0b0b0; background-color:#f3f3f3; width:100%">
+<INPUT type="submit" value="Reveal Meaning" style="margin:5px; color:green">
+<INPUT type="button" value="Next Sentence" style="margin:5px; color:blue" onclick='mainLoop();'>
+</div>
+</form>
+
+<div id="trnFrameText" class="scroll-box" style="margin:5px; border:1px solid #b0b0b0;background-color:#f3f3f3;font:10pt 'MS Gothic';overflow-x:auto;overflow-y:auto;height:40px;width:100%">
+</div>
+
+<div id="grmFrameText" class="scroll-box" style="margin:5px; border:1px solid #b0b0b0;background-color:#f3f3f3;font:10pt 'MS Gothic';overflow-x:auto;overflow-y:auto;height:100px;width:100%">
+</div>
+
+<div id="chpFrameText" class="scroll-box" style="margin:5px; border:1px solid #b0b0b0;background-color:#f3f3f3;font:10pt 'MS Gothic';overflow-x:auto;overflow-y:auto;height:40px;width:100%">
+</div>
+
+</body>
+
+</html>
+
+<script type="text/javascript">
+  document.entryForm.reset();
+
+  readSentences();
+  readTranslations();
+  readDictionary();
+  readGrammar();
+
+  mainLoop();
+</script>

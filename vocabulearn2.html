@@ -1,0 +1,520 @@
+﻿<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN"
+  "http://www.w3.org/TR/html4/strict.dtd">
+
+<html lang="en">
+
+<head>
+  <title>Vocabulary Test</title>
+  <meta http-equiv="content-type" content="text/html; charset=utf-8"/>
+  <link rel="shortcut icon" href="favicon.ico" />
+  <style type="text/css">
+    span:hover {font:25pt 'MS Mincho'}
+  </style>
+</head>
+
+<script src="../jdic/jdic.js"></script>
+<script src="../jdic/grammar.js"></script>
+
+<script type="text/javascript" charset="utf-8">
+
+  var debug=!true;
+
+  //---- Sentences Array
+  var bun=new Array(1000);
+  var bunN;
+  var bunIndex;
+
+  //---- Translations Array
+  var trn=new Array(1000);
+  var trnN;
+
+  //---- Dictionary Array
+  var dic = new jdic();
+
+  //---- Grammar Array
+  var grm=new Array(1000);
+  var grmN;
+
+  var maxWords=10;
+  var compound=new Array(10);
+  var reading=new Array(10);
+  var meaning=new Array(10);
+  var index=new Array(10);
+
+  //============================================================================
+
+  function pickSentence() {
+    var i=Math.floor(Math.random()*bunN);
+    if(i==bunN) i--;
+    return i;
+  }
+
+  //============================================================================
+
+  function readSentences() {
+    bunN=90;
+    bun[0  ]='<速い"はやい">';
+    bun[1  ]='<苦い"にがい">';
+    bun[2  ]='…かどうか';
+    bun[3  ]='…より<早く"はやく">';
+    bun[4  ]='<光栄"こうえい">ある';
+    bun[5  ]='<異様"いよう">な';
+    bun[6  ]='<大部分"だいぶぶん">の';
+    bun[7  ]='<澄んだ"すんだ">';
+    bun[8  ]='<美しい"うつくしい">';
+    bun[9  ]='<青ざめた"あおざめた">';
+    bun[10 ]='<奇妙"きみょう">な';
+    bun[11 ]='<貧しい"まずしい">';
+    bun[12 ]='あの';
+    bun[13 ]='<活発"かっぱつ">な';
+    bun[14 ]='ユニークな';
+    bun[15 ]='さらに';
+    bun[16 ]='<正確"せいかく">に';
+    bun[17 ]='<変"へん">な';
+    bun[18 ]='<時々"ときどき">';
+    bun[19 ]='<浸された"ひたされた">';
+    bun[20 ]='その<時"とき">';
+    bun[21 ]='<外部"がいぶ">';
+    bun[22 ]='<熱い"あつい">';
+    bun[23 ]='やせこけた';
+    bun[24 ]='<気前"きまえ">のよい';
+    bun[25 ]='<悲しい"かなしい">';
+    bun[26 ]='（よりも）むしろ';
+    bun[27 ]='のように';
+    bun[28 ]='<不愉快"ふゆかい">な';
+    bun[29 ]='の<間"あいだ">に';
+    bun[30 ]='<急いで"いそいで">';
+    bun[31 ]='…まで';
+    bun[32 ]='あとで';
+    bun[33 ]='いっしょに';
+    bun[34 ]='しばしば';
+    bun[35 ]='<大"だい">のお<気"き">に<入り"いり">の';
+    bun[36 ]='…の<代わり"かわり">に';
+    bun[37 ]='…なしに';
+    bun[38 ]='<無一文"むいちもん">の';
+    bun[39 ]='どっち？';
+    bun[40 ]='<茶色"ちゃいろ">の';
+    bun[41 ]='<乗って"のって">';
+    bun[42 ]='<強い"つよい">';
+    bun[43 ]='<無関心"むかんしん">な';
+    bun[44 ]='<若い"わかい">';
+    bun[45 ]='<信用"しんよう">できる';
+    bun[46 ]='ブロンドの';
+    bun[47 ]='<騒々しい"そうぞうしい">';
+    bun[48 ]='<難しい"むずかしい">';
+    bun[49 ]='<高価"こうか">な';
+    bun[50 ]='<急いで"いそいで">';
+    bun[51 ]='<未払い"みはらい">の';
+    bun[52 ]='<飢えた"うえた">';
+    bun[53 ]='<古典"こてん">の';
+    bun[54 ]='<分別"ふんべつ">のある';
+    bun[55 ]='すなおな';
+    bun[56 ]='<陽気"ようき">な';
+    bun[57 ]='<最後"さいご">の';
+    bun[58 ]='スポーツ<好き"ずき">な';
+    bun[59 ]='<正直"しょうじき">な';
+    bun[60 ]='<自由"じゆう">な';
+    bun[61 ]='<許せない"ゆるせない">';
+    bun[62 ]='<愛する"あいする">';
+    bun[63 ]='<余分"よぶん">の';
+    bun[64 ]='ばかな';
+    bun[65 ]='<絶対"ぜったい">に<誤り"あやまり">のない';
+    bun[66 ]='<平均"へいきん">の';
+    bun[67 ]='<厚い"あつい">';
+    bun[68 ]='きちんとした';
+    bun[69 ]='<非"ひ"><能率"のうりつ"><的"てき">に';
+    bun[70 ]='<上"うえ">へ';
+    bun[71 ]='<硬い"かたい">';
+    bun[72 ]='<既婚"きこん">の';
+    bun[73 ]='<素晴らしい"すばらしい">';
+    bun[74 ]='<不幸"ふこう">な';
+    bun[75 ]='まだ';
+    bun[76 ]='<はげ頭"はげあたま">';
+    bun[77 ]='これ';
+    bun[78 ]='<病気"びょうき">の';
+    bun[79 ]='とにかく';
+    bun[80 ]='<間接"かんせつ">の';
+    bun[81 ]='<安い"やすい">';
+    bun[82 ]='<簡単"かんたん">な';
+    bun[83 ]='<不"ふ"><適当"てきとう">な';
+    bun[84 ]='<絶望"ぜつぼう"><的"てき">な';
+    bun[85 ]='これらの';
+    bun[86 ]='<慎重"しんちょう">な';
+    bun[87 ]='<穏やか"おだやか">な';
+    bun[88 ]='<喉"のど">の<渇いた"かわいた">';
+    bun[89 ]='<臆病"おくびょう">な';
+    bun[90 ]='<"">';
+    bun[91 ]='<"">';
+    bun[92 ]='<"">';
+    bun[93 ]='<"">';
+    bun[94 ]='<"">';
+    bun[95 ]='<"">';
+    bun[96 ]='<"">';
+    bun[97 ]='<"">';
+    bun[98 ]='<"">';
+    bun[99 ]='<"">';
+  }
+
+  //============================================================================
+
+  function readTranslations() {
+    trnN=90;
+    trn[0  ]="quickly, rapidly";
+    trn[1  ]="bitter";
+    trn[2  ]="if, whether";
+    trn[3  ]="sooner";
+    trn[4  ]="glorious";
+    trn[5  ]="weird";
+    trn[6  ]="the majority of";
+    trn[7  ]="clear";
+    trn[8  ]="beautiful";
+    trn[9  ]="pale";
+    trn[10 ]="strange";
+    trn[11 ]="poor";
+    trn[12 ]="that";
+    trn[13 ]="brisk, lively";
+    trn[14 ]="unique";
+    trn[15 ]="besides";
+    trn[16 ]="exactly";
+    trn[17 ]="odd";
+    trn[18 ]="at times";
+    trn[19 ]="soaked";
+    trn[20 ]="then";
+    trn[21 ]="outside";
+    trn[22 ]="hot";
+    trn[23 ]="skinny";
+    trn[24 ]="generous";
+    trn[25 ]="sad";
+    trn[26 ]="rather";
+    trn[27 ]="like, such";
+    trn[28 ]="obnoxious";
+    trn[29 ]="during";
+    trn[30 ]="in a hurry";
+    trn[31 ]="up to, until";
+    trn[32 ]="later";
+    trn[33 ]="together";
+    trn[34 ]="often";
+    trn[35 ]="favourite";
+    trn[36 ]="instead of";
+    trn[37 ]="without";
+    trn[38 ]="broke";
+    trn[39 ]="which?";
+    trn[40 ]="brown";
+    trn[41 ]="aboard";
+    trn[42 ]="strong";
+    trn[43 ]="indifferent";
+    trn[44 ]="young";
+    trn[45 ]="credible";
+    trn[46 ]="blond";
+    trn[47 ]="noisy";
+    trn[48 ]="difficult";
+    trn[49 ]="valuable";
+    trn[50 ]="hastily";
+    trn[51 ]="unpaid";
+    trn[52 ]="starved";
+    trn[53 ]="classical";
+    trn[54 ]="sensible";
+    trn[55 ]="docile";
+    trn[56 ]="playful";
+    trn[57 ]="finishing, ending";
+    trn[58 ]="sporting";
+    trn[59 ]="honest";
+    trn[60 ]="loose";
+    trn[61 ]="inexcusable";
+    trn[62 ]="loving";
+    trn[63 ]="extra";
+    trn[64 ]="stupid";
+    trn[65 ]="infallible";
+    trn[66 ]="average, middle";
+    trn[67 ]="thick";
+    trn[68 ]="tidy";
+    trn[69 ]="inefficiently";
+    trn[70 ]="up";
+    trn[71 ]="hard";
+    trn[72 ]="married";
+    trn[73 ]="wonderful";
+    trn[74 ]="unfortunate";
+    trn[75 ]="not yet";
+    trn[76 ]="bald";
+    trn[77 ]="this";
+    trn[78 ]="sick";
+    trn[79 ]="anyway";
+    trn[80 ]="indirect";
+    trn[81 ]="cheap";
+    trn[82 ]="easy";
+    trn[83 ]="inept";
+    trn[84 ]="hopeless";
+    trn[85 ]="these";
+    trn[86 ]="cautious";
+    trn[87 ]="bland";
+    trn[88 ]="thirsty";
+    trn[89 ]="coward";
+    trn[90 ]="";
+    trn[91 ]="";
+    trn[92 ]="";
+    trn[93 ]="";
+    trn[94 ]="";
+    trn[95 ]="";
+    trn[96 ]="";
+    trn[97 ]="";
+    trn[98 ]="";
+    trn[99 ]="";
+  }
+
+  //============================================================================
+
+  function readGrammar() {
+    grmN=23;
+    grm[0   ]="1 Objects of Action: When you want to indicate the person, thing or matter that an action is directed towards.";
+    grm[1   ]="1-1 ～について (DIJG:280)";
+    grm[2   ]="1-1 ●When you state the object being dealt with.";
+    grm[3   ]="1-1 [NOTE] There are many cases of verbs meaning talk, hear, consider, write, investigate etc. coming at the end.";
+    grm[4   ]="1-1 [CONNECTION FORM] Noun + について";
+    grm[5   ]="1-2 ～に関して・～に関する (DIJG252) [WRITTEN]";
+    grm[6   ]="1-2 ●When you state the object being dealt with.";
+    grm[7   ]="1-2 [NOTE]  Refer to grammatical notes for 1{～について}. It is a more formal expression than 1{～について}.";
+    grm[8   ]="1-2 [CONNECTION FORM] Noun + に関して";
+    grm[9   ]="1-3 ～に対して・～に対する【～に／～を相手として】[to/toward/for ~; concerning/in regard to ~; against/in opposition to ~] (DIJG:275)";
+    grm[10  ]="1-3 ●Expressing the person, object, etc., that actions, feelings, etc., are directed toward.";
+    grm[11  ]="1-3 [NOTE]  This differs from 1{～について} and 2{～に関して・～に関する}; it is used when an action, feeling etc. directly relates to a person. There are many cases of language expressing antagonism coming at the end (e.g. opposition, objection, protest etc.).";
+    grm[12  ]="1-3 [CONNECTION FORM] Noun + に対して";
+    grm[13  ]="1-4 ~にこたえて・~にこたえる【~に沿うように】[in answer/reply/response to ~]";
+    grm[14  ]="1-4 [NOTE] 「~」contains a noun expressing enquiry, expectation, request etc..";
+    grm[15  ]="1-4 [CONNECTION FORM] Noun + にこたえて";
+    grm[16  ]="1-5 ~をめぐって・~をめぐる【~を議論や争いの中心点として】[central point of argument, dispute etc.] [WRITTEN]";
+    grm[17  ]="1-5 ●A focus on「~」, when talking about what kind of argument, opposition, antagonism arises.";
+    grm[18  ]="1-5 [NOTE]  There are many cases of verbs having meanings of confrontational opinion, various arguments, disputes etc. coming at the end.";
+    grm[19  ]="1-5 [CONNECTION FORM] Noun + めぐって";
+    grm[20  ]="1-6 ~向けに・~向けの・~向けだ【~のために】[for the sake of ~]";
+    grm[21  ]="1-6 ●When wanting to say \"be suited to ~\"";
+    grm[22  ]="1-6 [CONNECTION FORM] Noun + 向けに";
+  }
+
+  //============================================================================
+
+  function pickSentence() {
+    var i=Math.floor(Math.random()*bunN);
+    if(i==bunN) i--;
+    return i;
+  }
+
+  //============================================================================
+
+  function mainLoop() {
+    bunIndex=pickSentence();
+    var bunText=bun[bunIndex];
+
+    document.getElementById('trnFrameText').innerHTML='';
+    document.getElementById('grmFrameText').innerHTML='';
+    document.getElementById('chpFrameText').innerHTML='';
+
+    var bunRow='';
+    var refRow='';
+
+    var unmarked='';
+
+    var unmarkedFlag=true;
+    var compoundFlag=false;
+    var readingFlag=false;
+
+    var refChar;
+
+    var i, j;
+
+    for(i=0; i<maxWords; i++) {
+      compound[i]='';
+      reading[i]='';
+      meaning[i]='';
+      index[i]=-1;
+    }
+
+    var wordCount=0;
+
+    for(i=0; i<bunText.length; i++) {
+      var ch=bunText.substr(i,1);
+      if(ch=='<') {
+        if(unmarked!='') {
+          bunRow+='<td nowrap valign="top">'+unmarked+'</td>';
+          refRow+='<td nowrap valign="top"></td>';
+        }
+        unmarkedFlag=false;
+        compoundFlag=true;
+        readingFlag=false;
+      } else if(ch=='"' && !readingFlag) {
+        unmarkedFlag=false;
+        compoundFlag=false;
+        readingFlag=true;
+      } else if(ch=='"' && readingFlag) {
+        unmarkedFlag=false;
+        compoundFlag=false;
+        readingFlag=false;
+      } else if(ch=='>') {
+        index[wordCount]=getMeaning(wordCount);
+        if(index[wordCount]!=-1) {
+          meaning[wordCount]=dic.word[index[wordCount]]+'&nbsp;'+dic.meaning[index[wordCount]];
+        }
+
+        bunRow+='<td nowrap valign="top"><span id="bun'+wordCount+'">'+compound[wordCount]+'</span></td>';
+        switch(wordCount) {
+          case 0: refChar='①'; break;
+          case 1: refChar='②'; break;
+          case 2: refChar='③'; break;
+          case 3: refChar='④'; break;
+          case 4: refChar='⑤'; break;
+          case 5: refChar='⑥'; break;
+          case 6: refChar='⑦'; break;
+          case 7: refChar='⑧'; break;
+          case 8: refChar='⑨'; break;
+          case 9: refChar='⑩'; break;
+          default: refChar='○';
+        }
+        refRow+='<td nowrap valign="top" style="border-top-style:solid;border-top-color:black;">'+refChar+'</td>';
+        wordCount++;
+        unmarked='';
+        unmarkedFlag=true;
+        compoundFlag=false;
+        readingFlag=false;
+      } else if(ch!="\n") {
+        if(unmarkedFlag) {
+          unmarked+=ch;
+        } else if(compoundFlag) {
+          compound[wordCount]+=ch;
+        } else if(readingFlag) {
+          reading[wordCount]+=ch;
+        }
+      }
+    }
+
+    if(unmarked!='') {
+      bunRow+='<td nowrap valign="top">'+unmarked+'</td>';
+      refRow+='<td nowrap valign="top"></td>';
+    }
+
+    document.getElementById('bunFrameText').innerHTML='<table><tr>'+bunRow+'</tr><tr>'+refRow+'</tr></table>';
+
+    for (i=1; i<=maxWords; i++) {
+      document.getElementById('meaning'+i).innerHTML='';
+
+      if(i<=wordCount) {
+        document.getElementById('reading'+i).disabled=true;
+        document.getElementById('button'+i).disabled=false;
+        document.getElementById('reading'+i).style.border="1px black solid"
+        document.getElementById('button'+i).style.border="1px black solid"
+        document.getElementById('reading'+i).value='';
+      } else {
+        document.getElementById('reading'+i).value='';
+        document.getElementById('reading'+i).disabled=true;
+        document.getElementById('button'+i).disabled=true;
+        document.getElementById('reading'+i).style.border="1px white solid"
+        document.getElementById('button'+i).style.border="1px white solid"
+      }
+    }
+
+    //if(document.getElementById('reading1').disabled==false) document.getElementById('reading1').focus();
+
+  }
+
+  //============================================================================
+
+  function do_nothing() {}
+
+  //============================================================================
+
+  function processSubmit() {
+  }
+
+  //============================================================================
+
+  function revealMeaning() {
+    document.getElementById('trnFrameText').innerHTML='<table><tr><td>'+trn[bunIndex]+'</td></tr></table>';
+
+    var grammar='';
+
+    var readLine;
+    var grmIndex, trnIndex, sumIndex;
+    for(i=0; i<grmN; i++) {
+      readLine=grm[i];
+      grmIndex = readLine.replace(/^([^ ]*) .*$/, "$1");
+      trnIndex = trn[bunIndex].replace(/^([^ ]*)[^ ][^ ] .*$/, "$1");
+      sumIndex = trnIndex.replace(/^(.*)[-.][\d]*[abc]?$/, "$1");
+      //if(i >= 832) alert("revealMeaning(): i="+i+" grmIndex="+grmIndex+" trnIndex="+trnIndex+" sumIndex="+sumIndex+" readLine="+readLine);
+
+      if(grmIndex==trnIndex) {
+        readLine = grm[i].replace(/^[^ ]* (.*)$/, "$1");
+        grammar+='<tr><td>'+readLine+'</td></tr>';
+      } else if(grmIndex==sumIndex) {
+        document.getElementById('chpFrameText').innerHTML='<table><tr><td>'+readLine+'</td></tr></table>';
+      }
+    }
+    document.getElementById('grmFrameText').innerHTML='<table>'+grammar+'</table>';
+  }
+
+  //============================================================================
+
+  function reveal(i) {
+    document.getElementById('reading'+i).value=reading[i-1];
+    document.getElementById('meaning'+i).innerHTML=meaning[i-1];
+    document.getElementById('reading'+i).disabled=true;
+    document.getElementById('button'+i).style.border="1px white solid"
+    document.getElementById('button'+i).disabled=true;
+  }
+
+
+</script>
+
+
+
+
+
+
+
+
+<body>
+
+<div id="bunFrameText" class="scroll-box" style="margin:5px; border:1px solid #b0b0b0;background-color:#f3f3f3;font:12pt 'MS Gothic';overflow-x:auto;overflow-y:auto;height:60px;width:100%">
+</div>
+
+<form name="entryForm" action="javascript:revealMeaning();" method="POST" onsubmit="do_nothing();">
+<div style="margin:5px; border:1px solid #b0b0b0; background-color:#f3f3f3; width:100%">
+<table>
+<tr><td>①&nbsp;<INPUT type="button" id="button1"  value="Reveal" style="width:75px; border:1px black solid; margin:0px; padding:0px; color:green" onclick="reveal(1) "></td><td><INPUT type="text" id="reading1"  size="15" maxlength="30" style="width:125px; font:10pt Courier" value="" onchange="javascript:do_nothing()"></td><td id="meaning1"  style="width:75%; font:10pt 'MS Gothic'"></td></tr>
+<tr><td>②&nbsp;<INPUT type="button" id="button2"  value="Reveal" style="width:75px; border:1px black solid; margin:0px; padding:0px; color:green" onclick="reveal(2)" ></td><td><INPUT type="text" id="reading2"  size="15" maxlength="30" style="width:125px; font:10pt Courier" value="" onchange="javascript:do_nothing()"></td><td id="meaning2"  style="width:75%; font:10pt 'MS Gothic'"></td></tr>
+<tr><td>③&nbsp;<INPUT type="button" id="button3"  value="Reveal" style="width:75px; border:1px black solid; margin:0px; padding:0px; color:green" onclick="reveal(3)" ></td><td><INPUT type="text" id="reading3"  size="15" maxlength="30" style="width:125px; font:10pt Courier" value="" onchange="javascript:do_nothing()"></td><td id="meaning3"  style="width:75%; font:10pt 'MS Gothic'"></td></tr>
+<tr><td>④&nbsp;<INPUT type="button" id="button4"  value="Reveal" style="width:75px; border:1px black solid; margin:0px; padding:0px; color:green" onclick="reveal(4)" ></td><td><INPUT type="text" id="reading4"  size="15" maxlength="30" style="width:125px; font:10pt Courier" value="" onchange="javascript:do_nothing()"></td><td id="meaning4"  style="width:75%; font:10pt 'MS Gothic'"></td></tr>
+<tr><td>⑤&nbsp;<INPUT type="button" id="button5"  value="Reveal" style="width:75px; border:1px black solid; margin:0px; padding:0px; color:green" onclick="reveal(5)" ></td><td><INPUT type="text" id="reading5"  size="15" maxlength="30" style="width:125px; font:10pt Courier" value="" onchange="javascript:do_nothing()"></td><td id="meaning5"  style="width:75%; font:10pt 'MS Gothic'"></td></tr>
+<tr><td>⑥&nbsp;<INPUT type="button" id="button6"  value="Reveal" style="width:75px; border:1px black solid; margin:0px; padding:0px; color:green" onclick="reveal(6)" ></td><td><INPUT type="text" id="reading6"  size="15" maxlength="30" style="width:125px; font:10pt Courier" value="" onchange="javascript:do_nothing()"></td><td id="meaning6"  style="width:75%; font:10pt 'MS Gothic'"></td></tr>
+<tr><td>⑦&nbsp;<INPUT type="button" id="button7"  value="Reveal" style="width:75px; border:1px black solid; margin:0px; padding:0px; color:green" onclick="reveal(7)" ></td><td><INPUT type="text" id="reading7"  size="15" maxlength="30" style="width:125px; font:10pt Courier" value="" onchange="javascript:do_nothing()"></td><td id="meaning7"  style="width:75%; font:10pt 'MS Gothic'"></td></tr>
+<tr><td>⑧&nbsp;<INPUT type="button" id="button8"  value="Reveal" style="width:75px; border:1px black solid; margin:0px; padding:0px; color:green" onclick="reveal(8)" ></td><td><INPUT type="text" id="reading8"  size="15" maxlength="30" style="width:125px; font:10pt Courier" value="" onchange="javascript:do_nothing()"></td><td id="meaning8"  style="width:75%; font:10pt 'MS Gothic'"></td></tr>
+<tr><td>⑨&nbsp;<INPUT type="button" id="button9"  value="Reveal" style="width:75px; border:1px black solid; margin:0px; padding:0px; color:green" onclick="reveal(9)" ></td><td><INPUT type="text" id="reading9"  size="15" maxlength="30" style="width:125px; font:10pt Courier" value="" onchange="javascript:do_nothing()"></td><td id="meaning9"  style="width:75%; font:10pt 'MS Gothic'"></td></tr>
+<tr><td>⑩&nbsp;<INPUT type="button" id="button10" value="Reveal" style="width:75px; border:1px black solid; margin:0px; padding:0px; color:green" onclick="reveal(10)"></td><td><INPUT type="text" id="reading10" size="15" maxlength="30" style="width:125px; font:10pt Courier" value="" onchange="javascript:do_nothing()"></td><td id="meaning10" style="width:75%; font:10pt 'MS Gothic'"></td></tr>
+</table>
+</div>
+<div style="margin:5px; border:1px solid #b0b0b0; background-color:#f3f3f3; width:100%">
+<INPUT type="submit" value="Reveal Meaning" style="margin:5px; color:green">
+<INPUT type="button" value="Next Sentence" style="margin:5px; color:blue" onclick='mainLoop();'>
+</div>
+</form>
+
+<div id="trnFrameText" class="scroll-box" style="margin:5px; border:1px solid #b0b0b0;background-color:#f3f3f3;font:10pt 'MS Gothic';overflow-x:auto;overflow-y:auto;height:40px;width:100%">
+</div>
+
+<div id="grmFrameText" class="scroll-box" style="margin:5px; border:1px solid #b0b0b0;background-color:#f3f3f3;font:10pt 'MS Gothic';overflow-x:auto;overflow-y:auto;height:100px;width:100%">
+</div>
+
+<div id="chpFrameText" class="scroll-box" style="margin:5px; border:1px solid #b0b0b0;background-color:#f3f3f3;font:10pt 'MS Gothic';overflow-x:auto;overflow-y:auto;height:40px;width:100%">
+</div>
+
+</body>
+
+</html>
+
+<script type="text/javascript">
+  document.entryForm.reset();
+
+  readSentences();
+  readTranslations();
+  readGrammar();
+
+  mainLoop();
+</script>
+
