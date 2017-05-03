@@ -53,25 +53,107 @@
 
   function readSentences() {
     bunN=6;
-    bun[0  ]='きのう<外務省"がいむしょう">からパスポートをもらいました。';
-    bun[1  ]='きのう<大使館"たいしかん">からビザをもらいました。';
-    bun[2  ]='きのう<銀行"ぎんこう">から<小切手"こぎって">をもらいました。';
-    bun[3  ]='きのう<学校"がっこう">から<証明書"しょうめいしょ">をもらいました。';
-    bun[4  ]='きのう<文部科学省"もんぶかがくしょう">から<通知"つうち">をもらいました。';
-    bun[5  ]='きのう<事務所"じむしょ">から<旅費"りょひ">をもらいました。';
+    trnN=6;
+
+    bun[0  ]='<１課"いっか">　<会合"かいごう">への<招待"しょうたい">';
+    trn[0  ]="Section 1 Invitation to a Gathering";
+
+    bun[1  ]='<登場"とうじょう"><人物"じんぶつ">：山田（日本の<会社"かいしゃ">の<海外"かいがい"><事務所"じむしょ"><課長"かちょう">）　リー・ヤング（海外事務所の<社員"しゃいん">）';
+    trn[1  ]="Play characters: Yamada (Foreign office section manager of Japanese company) Lee Young (Employee of foreign office)";
+
+    bun[2  ]='<場面"ばめん">：<事務所"じむしょ">で<送別会"そうべつかい">への<招待"しょうたい">を<受ける"うける">';
+    trn[2  ]="Scene: Accepting an invitation to a farewell party in the office";
+
+    bun[3  ]='<""><""><""><""><"">';
+    trn[3  ]="";
+
+    bun[4  ]='<""><""><""><""><"">';
+    trn[4  ]="";
+
+    bun[5  ]='<""><""><""><""><"">';
+    trn[5  ]="";
+
+    bun[6  ]='<""><""><""><""><"">';
+    trn[6  ]="";
+
+    bun[7  ]='<""><""><""><""><"">';
+    trn[7  ]="";
+
+    bun[8  ]='<""><""><""><""><"">';
+    trn[8  ]="";
+
+    bun[9  ]='<""><""><""><""><"">';
+    trn[9  ]="";
+
+    bun[10 ]='<""><""><""><""><"">';
+    trn[10 ]="";
+
+    bun[11 ]='<""><""><""><""><"">';
+    trn[11 ]="";
   }
 
   //============================================================================
 
   function readTranslations() {
-    trnN=6;
-    trn[0  ]="1-1-例 I received the passport from the Foreign Office yesterday.";
-    trn[1  ]="1-1-① I received the visa from the Embassy yesterday.";
-    trn[2  ]="1-1-② I received a cheque from the bank yesterday.";
-    trn[3  ]="1-1-③ I received a certificate from ?? yesterday.";
-    trn[4  ]="1-2-④ I received notice from the Ministry of Education yesterday.";
-    trn[5  ]="1-2-⑤ I received travel expenses from the office yesterday.";
   }
+
+/*
+かいごう	会合	(n,vs) a gathering; a get-together
+とうじょうじんぶつ	登場人物	(n) the characters in a play
+かいがい	海外	(n) foreign; abroad; overseas
+じむしょ	事務所	(n) office
+かちょう	課長	(n) section manager
+しゃいん	社員	(n) company employee
+ばめん	場面	(n) scene; setting (e.g., of novel)
+そうべつかい	送別会	(n) farewell party
+じゅんび		(n,vs) preparation; arrangements
+がいむしょう	外務省	(n) Ministry of Foreign Affairs
+パスポート		(n) passport
+ビザ		(n) visa
+つごう	都合	(adv,n) circumstances; convenience
+ばしょ	場所	(n) place; location
+おきかえ	置き換え	replacing one thing with another
+こぎって	小切手	(n) cheque
+しょうめいしょ	証明書	(n) certificate
+もんぶかがくしょう	文部科学省	(n) Ministry of Education, Culture, Sports, Science and Technology
+つうち	通知	(n,vs) notice; notification; information; communication; advice
+りょひ	旅費	(n) travel expenses
+こんしゅう	今週	(n-adv,n-t) this week
+ひるね	昼寝	(n,vs) afternoon nap
+いいかえ	言い換え	(n,vs) expression in different words
+とうちゃく	到着	(n,vs) arrival
+パーティー		(n) party
+クラスかい	クラス会	(n) class meeting; class reunion
+おもちゃ		(n) toy
+どっかい	読解	(n,vs) reading comprehension
+ごぜんちゅう	午前中	(n) in the morning; during the morning
+りゅうがく	留学	(n,vs) studying abroad
+けいざいがく	経済学	(n) economics
+けんしゅう	研修	(n,vs) training ; induction course
+きかん	期間	(n) length; period; period of time
+よてい	予定	(n,vs) plan; arrangement
+けんきゅうせい	研究生	(n) research student
+けいえいがく	経営学	(n) management studies
+ふさい	夫妻	(n) husband and wife; Mr & Mrs
+せんもん		(n) special subject of study
+ぶんしょう	文章	(n) composition; essay; article
+であるたい	である体	de aru form
+です・ますたい	です・ます体	desu/masu form
+リー・ヤング		Lee Young
+セントラル・ホテル		Central Hotel
+ロンドン		London
+そろえる		(v1,vt) (1) to arrange; to put in order; (2) to get (s.t.) ready
+まなぶ	学ぶ	(v5b) to study; to learn
+（～を～に）かえる		(v1,vt) to change (~ to ~)
+つれていく	連れて行く	(v5k-s) to take along
+じつは	実は	(adv,exp) as a matter of fact; to tell you the truth
+どうも（ありがとうございます）		(exp) Thank you (very much)
+（けんきゅうせい）として	（研究生）として	(conj,prt) in the capacity of; as (a research student)
+～ていく		
+～ことになる		
+～である		[form of copula]
+～か	～課	(n-suf) (1) section (in an organisation); (2) counter for lessons and chapters (of a book)
+*/
 
   //============================================================================
 
