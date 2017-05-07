@@ -52,10 +52,7 @@
   //============================================================================
 
   function readSentences() {
-    bunN=9;
-    trnN=bunN;
-
-    bun[0  ]='<１課"いっか">　<会合"かいごう">への<招待"しょうたい">';
+    bun[0  ]='１<課"か">　<会合"かいごう">への<招待"しょうたい">';
     trn[0  ]="Section 1 Invitation to a Gathering";
 
     bun[1  ]='<登場"とうじょう"><人物"じんぶつ">：山田（日本の<会社"かいしゃ">の<海外"かいがい"><事務所"じむしょ"><課長"かちょう">）　リー・ヤング（海外事務所の<社員"しゃいん">）';
@@ -82,14 +79,70 @@
     bun[8  ]='水<曜日"ようび">は<都合"つごう">が<悪い"わるい">のですが……。';
     trn[8  ]="Wednesday is not convenient but...";
 
-    bun[9  ]='<""><""><""><""><"">';
-    trn[9  ]="";
+    bun[9  ]='<夕方"ゆうがた">5時からはどうですか。';
+    trn[9  ]="How about from 5 o'clock in the evening?";
 
-    bun[10 ]='<""><""><""><""><"">';
-    trn[10 ]="";
+    bun[10 ]='<場所"ばしょ">は、セントラル・ホテル１<階"かい">のレストランにしようと<思って"おもって">います。';
+    trn[10 ]="As for the place, I am thinking of doing it at the 1st floor restaurant, Central Hotel.";
 
-    bun[11 ]='<""><""><""><""><"">';
-    trn[11 ]="";
+    bun[11 ]='きのう<外務省"がいむしょう">からパスポートをもらいました。';
+    bun[12 ]='きのう<大使館"たいしかん">からビザをもらいました。';
+    bun[13 ]='きのう<銀行"ぎんこう">から<小切手"こぎって">をもらいました。';
+    bun[14 ]='きのう<学校"がっこう">から<証明書"しょうめいしょ">をもらいました。';
+    bun[15 ]='きのう<文部"もんぶ"><科学"かがく"><省"しょう">から<通知"つうち">をもらいました。';
+    bun[16 ]='きのう<事務所"じむしょ">から<旅費"りょひ">をもらいました。';
+    trn[11 ]="1.1-例 I received the passport from the Foreign Office yesterday.";
+    trn[12 ]="1.1-① I received the visa from the Embassy yesterday.";
+    trn[13 ]="1.1-② I received a cheque from the bank yesterday.";
+    trn[14 ]="1.1-③ I received a certificate from school yesterday.";
+    trn[15 ]="1.1-④ I received notice from the Ministry of Education, Culture, Sports, Science and Technology yesterday.";
+    trn[16 ]="1.1-⑤ I received travel expenses from the office yesterday.";
+
+    bun[17 ]='<来週"らいしゅう">の<水曜"すいよう">日はどうですか。';
+    bun[18 ]='<今週"こんしゅう">の<土曜"どよう">日はどうですか。';
+    bun[19 ]='<来週"らいしゅう">の<月曜"げつよう">日はどうですか。';
+    bun[20 ]='あしたの<4時"よじ">はどうですか。';
+    bun[21 ]='<今度"こんど">の<日曜"にちよう">日はどうですか。';
+    bun[22 ]='<今月"こんげつ">の<19日"じゅうくにち">はどうですか。';
+    trn[17 ]="1.2-例 How about Wednesday next week?";
+    trn[18 ]="1.2-① How about Saturday this week?";
+    trn[19 ]="1.2-② How about Monday next week?";
+    trn[20 ]="1.2-③ How about 4 o'clock tomorrow?";
+    trn[21 ]="1.2-④ How about this Sunday?";
+    trn[22 ]="1.2-⑤ How about the 19th this month?";
+
+    bun[23 ]='<水曜"すいよう">日は<都合"つごう">が<悪い"わるい">のですが。';
+    bun[24 ]='<火曜"かよう">日は<都合"つごう">が<悪い"わるい">のですが。';
+    bun[25 ]='あしたは<都合"つごう">が<悪い"わるい">のですが。';
+    bun[26 ]='<木曜"もくよう">日は<都合"つごう">が<悪い"わるい">のですが。';
+    bun[27 ]='<20日"はつか">は<都合"つごう">が<悪い"わるい">のですが。';
+    bun[28 ]='<今日"きょう">は<都合"つごう">が<悪い"わるい">のですが。';
+    trn[23 ]="1.3-例 Wednesday wouldn't be convenient, but...";
+    trn[24 ]="1.3-① Tuesday wouldn't be convenient, but...";
+    trn[25 ]="1.3-② Tomorrow wouldn't be convenient, but...";
+    trn[26 ]="1.3-③ Thursday wouldn't be convenient, but...";
+    trn[27 ]="1.3-④ The 20th wouldn't be convenient, but...";
+    trn[28 ]="1.3-⑤ Today wouldn't be convenient, but...";
+
+    bun[29 ]='<金曜"きんよう">日なら<都合"つごう">がいいのですが。';
+    bun[30 ]='<土曜"どよう">日なら<都合"つごう">がいいのですが。';
+    bun[31 ]='<月曜"げつよう">日か<火曜"かつよう">日なら<都合"つごう">がいいのですが。';
+    bun[32 ]='<2日"ふつか">の<夕方"ゆうがた">なら<都合"つごう">がいいのですが。';
+    bun[33 ]='<23日"にじゅうさんにち">か<24日"にじゅうよっか">なら<都合"つごう">がいいのですが。';
+    bun[34 ]='あしたの5時ごろなら<都合"つごう">がいいのですが。';
+    trn[29 ]="1.4-例 If it's Friday then it would be convenient, ...";
+    trn[30 ]="1.4-① If it's Saturday then it would be convenient, ...";
+    trn[31 ]="1.4-② If it's Monday or Tuesday then it would be convenient, ...";
+    trn[32 ]="1.4-③ If it's the evening of the 2nd then it would be convenient, ...";
+    trn[33 ]="1.4-④ If it's the 23rd or 24th then it would be convenient, ...";
+    trn[34 ]="1.4-⑤ If it's tomorrow around 5 o'clock then it would be convenient, ...";
+
+
+    //bun[33 ]='<""><""><""><""><"">';
+    //trn[33 ]="";
+
+    bunN=bun.length;
+    trnN=bunN;
   }
 
   //============================================================================
@@ -149,8 +202,8 @@
 じつは	実は	(adv,exp) as a matter of fact; to tell you the truth
 どうも（ありがとうございます）		(exp) Thank you (very much)
 （けんきゅうせい）として	（研究生）として	(conj,prt) in the capacity of; as (a research student)
-～ていく		
-～ことになる		
+～ていく
+～ことになる
 ～である		[form of copula]
 ～か	～課	(n-suf) (1) section (in an organisation); (2) counter for lessons and chapters (of a book)
 */
@@ -163,10 +216,14 @@
 
   //============================================================================
 
+  var ptr = -1;
   function pickSentence() {
-    var i=Math.floor(Math.random()*bunN);
-    if(i==bunN) i--;
-    return i;
+    ptr++;
+    if (ptr == bunN) ptr = 0;
+    return ptr;
+    //var i=Math.floor(Math.random()*bunN);
+    //if(i==bunN) i--;
+    //return i;
   }
 
   //============================================================================
