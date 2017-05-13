@@ -20,12 +20,12 @@
   var debug=!true;
 
   //---- Sentences Array
-  var bun=new Array(1000);
+  var bun=[];
   var bunN;
   var bunIndex;
 
   //---- Translations Array
-  var trn=new Array(1000);
+  var trn=[];
   var trnN;
 
   //---- Dictionary Array
@@ -43,16 +43,8 @@
 
   //============================================================================
 
-  function pickSentence() {
-    var i=Math.floor(Math.random()*bunN);
-    if(i==bunN) i--;
-    return i;
-  }
-
-  //============================================================================
-
   function readSentences() {
-    bun[0  ]='１<課"か">　<会合"かいごう">への<招待"しょうたい">';
+    bun[0  ]='1<課"か">　<会合"かいごう">への<招待"しょうたい">';
     trn[0  ]="Section 1 Invitation to a Gathering";
 
     bun[1  ]='<登場"とうじょう"><人物"じんぶつ">：山田（日本の<会社"かいしゃ">の<海外"かいがい"><事務所"じむしょ"><課長"かちょう">）　リー・ヤング（海外事務所の<社員"しゃいん">）';
@@ -126,7 +118,7 @@
 
     bun[29 ]='<金曜"きんよう">日なら<都合"つごう">がいいのですが。';
     bun[30 ]='<土曜"どよう">日なら<都合"つごう">がいいのですが。';
-    bun[31 ]='<月曜"げつよう">日か<火曜"かつよう">日なら<都合"つごう">がいいのですが。';
+    bun[31 ]='<月曜"げつよう">日か<火曜"かよう">日なら<都合"つごう">がいいのですが。';
     bun[32 ]='<2日"ふつか">の<夕方"ゆうがた">なら<都合"つごう">がいいのですが。';
     bun[33 ]='<23日"にじゅうさんにち">か<24日"にじゅうよっか">なら<都合"つごう">がいいのですが。';
     bun[34 ]='あしたの5時ごろなら<都合"つごう">がいいのですが。';
@@ -140,7 +132,7 @@
     bun[35 ]='<妻"つま">は<子ども"こども">の<洋服"ようふく">を買いに行ったり、<荷物"にもつ">をそろえたりしています。';
     bun[36 ]='<料理"りょうり">を<作った"つくった">り、せんたくをしたりしています。';
     bun[37 ]='<妻"つま">は<新聞"しんぶん">を<読んだ"よんだ">り、テレビを<見た"みた">りしています。';
-    bun[38 ]='<妻"つま">はパスポートをもらいに<行った"いった">り、ビザをとりに行ったりしています。';
+    bun[38 ]='<妻"つま">はパスポートをもらいに行ったり、ビザをとりに行ったりしています。';
     bun[39 ]='<妻"つま">は<電話"でんわ">をかけたり、<手紙"てがみ">を<書いた"かいた">りしています。';
     bun[40 ]='<妻"つま">は<散歩"さんぽ">をしたり、<昼寝"ひるね">をしたりしています。';
     trn[35 ]="1.4-例 My wife is doing things like going to buy our child's clothes, and preparing the luggage.";
@@ -149,6 +141,21 @@
     trn[38 ]="1.4-③ My wife is doing things like going to get a passport, and going to pick up a visa.";
     trn[39 ]="1.4-④ My wife is doing things like making telephone calls, and writing letters.";
     trn[40 ]="1.4-⑤ My wife is doing things like walking, and taking a nap.";
+
+    bun[41 ]='日本への<出発"しゅっぱつ">は<来月"らいげつ"><3日"みっか">でしたね。';
+    bun[42 ]='日本への<到着"とうちゃく">は<来月"らいげつ"><3日"みっか">でしたね。';
+    bun[43 ]='アメリカへの<出発"しゅっぱつ">は<来月"らいげつ"><4日"よっか">でしたね。';
+    bun[44 ]='フランスへの<出発"しゅっぱつ">は<来週"らいしゅう">の<月曜"げつよう">日でしたね。';
+    bun[45 ]='日本への<到着"とうちゃく">は<今月"こんげつ"><5日"いつか">でしたね。';
+    bun[46 ]='ロンドンへの<到着"とうちゃく">は<今週"こんしゅう">の<金曜"きんよう">日でしたね。';
+    bun[47 ]='<空港"くうこう">への<到着"とうちゃく">は<午後"ごご"><3時"さんじ">でしたね。';
+    trn[41 ]="2.1-例 Your departure to Japan was the 3rd next month right?";
+    trn[42 ]="2.1-例 Your arrival in Japan was the 3rd next month right?";
+    trn[43 ]="2.1-① Your departure to America was the 4th next month right?";
+    trn[44 ]="2.1-② Your departure to France was Monday next week right?";
+    trn[45 ]="2.1-③ Your arrival in Japan was the 5th this month right?";
+    trn[46 ]="2.1-④ Your arrival in London was Friday this week right?";
+    trn[47 ]="2.1-⑤ Your arrival at the airport was 3 o'clock in the afternoon right?";
 
     //bun[33 ]='<""><""><""><""><"">';
     //trn[33 ]="";
@@ -228,10 +235,12 @@
 
   //============================================================================
 
-  var ptr = -1;
+  var ptr = -1+41;
   function pickSentence() {
     ptr++;
-    if (ptr == bunN) ptr = 0;
+    if (ptr == bunN) {
+      ptr = 0;
+    }
     return ptr;
     //var i=Math.floor(Math.random()*bunN);
     //if(i==bunN) i--;

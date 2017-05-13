@@ -20,9 +20,9 @@ function jdic() {
   this.src.push("文部	【もん／ぶ】	99999	(n) Ministry of Education");
   this.src.push("外務省	【がい／む／しょう】	99999	(n) Ministry of Foreign Affairs");
   this.src.push("証明書	【しょう／めい／しょ】	99999	(n) certificate (usually of proof of something), credentials");
-  this.src.push("旅費 【りょ／ひ】	99999  (n) travel expenses");
-  this.src.push("今週 【こん／しゅう】	99999  (n-adv,n-t) this week");
-  this.src.push("今月 【こん／げつ】	99999  (n-adv,n-t) this month");
+  this.src.push("旅費	【りょ／ひ】	99999	(n) travel expenses");
+  this.src.push("今週	【こん／しゅう】	99999	(n-adv,n-t) this week");
+  this.src.push("今月	【こん／げつ】	99999	(n-adv,n-t) this month");
 
 
   // Original vocabulary
