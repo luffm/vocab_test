@@ -179,7 +179,7 @@
 
   //============================================================================
 
-  var ptr = -1+48;
+  var ptr = -1;
   function pickSentence(method) {
     if (method == 'next') {
       ptr++;
@@ -189,7 +189,7 @@
     } else if (method == 'prev') {
       ptr--;
       if (ptr == -1) {
-        ptr == bunN - 1;
+        ptr = bunN - 1;
       }
     } else if (method == 'rand') {
       ptr=Math.floor(Math.random()*bunN);
