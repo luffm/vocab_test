@@ -20,19 +20,19 @@
   var debug=!true;
 
   //---- Sentences Array
-  var bun=new Array(1000);
+  var bun=[];
   var bunN;
   var bunIndex;
 
   //---- Translations Array
-  var trn=new Array(1000);
+  var trn=[];
   var trnN;
 
   //---- Dictionary Array
   var dic = new jdic();
 
   //---- Grammar Array
-  var grm=new Array(1000);
+  var grm=[];
   var grmN;
 
   var maxWords=10;
@@ -44,7 +44,6 @@
   //============================================================================
 
   function readSentences() {
-    bunN=836;
     bun[0  ]='あの<人"ひと">についてわたしは何も<知りません"しりません">。';
     bun[1  ]='この<町"まち">の<歴史"れきし">についてちょっと<調べて"しらべて">みようと思っている。';
     bun[2  ]='この日本<文化"ぶんか"><史"し">についてのレポートは<大変"たいへん">よくできている。';
@@ -1727,7 +1726,6 @@
   //============================================================================
 
   function readGrammar() {
-    grmN=921;
     grm[0   ]="1 Objects of Action: When you want to indicate the person, thing or matter that an action is directed towards.";
     grm[1   ]="1-1 ～について (DIJG:280)";
     grm[2   ]="1-1 ●When you state the object being dealt with.";
@@ -2649,6 +2647,8 @@
     grm[918 ]="30-8 ●An expression when the speaker expresses with feeling what they felt of a certain fact.";
     grm[919 ]="30-8 [NOTE] There are many cases of words expressing the speaker's feeling coming in 「～」.";
     grm[920 ]="30-8 [CONNECTION FORM] Modified Noun-Phrase Form (Present form only. There is no form connecting a noun.)   +  ものがある";
+
+    grmN=grm.length;
   }
 
   //============================================================================
@@ -2675,11 +2675,11 @@
   //============================================================================
 
   function mainLoop() {
-    bunIndex=pickSentence();
+    bunIndex=pickSentence(method);
     var bunText=bun[bunIndex];
 
     document.getElementById('trnFrameText').innerHTML='';
-    document.getElementById('grmFrameText').innerHTML='';
+    document.getElementById('grmFrameText').innerHTML=''+bunIndex;
     document.getElementById('chpFrameText').innerHTML='';
 
     var bunRow='';
