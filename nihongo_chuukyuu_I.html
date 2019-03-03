@@ -1,0 +1,490 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN"
+  "http://www.w3.org/TR/html4/strict.dtd">
+
+<html lang="en">
+
+<head>
+  <title>Vocabulary Test</title>
+  <meta http-equiv="content-type" content="text/html; charset=utf-8"/>
+  <link rel="shortcut icon" href="favicon.ico" />
+  <style type="text/css">
+    span:hover {font:25pt 'MS Mincho'}
+  </style>
+</head>
+
+<script src="jdic.js"></script>
+<script src="grammar.js"></script>
+
+<script type="text/javascript" charset="utf-8">
+
+  var debug=!true;
+
+  //---- Sentences Array
+  var bun=[];
+  var bunN;
+  var bunIndex;
+
+  //---- Translations Array
+  var trn=[];
+  var trnN;
+
+  //---- Dictionary Array
+  var dic = new jdic();
+
+  //---- Grammar Array
+  var grm=new Array(1000);
+  var grmN;
+
+  var maxWords=10;
+  var compound=new Array(10);
+  var reading=new Array(10);
+  var meaning=new Array(10);
+  var index=new Array(10);
+
+  //============================================================================
+
+  function readSentences() {
+    bun[0  ]='1<課"か">　<会合"かいごう">への<招待"しょうたい">';
+    trn[0  ]="Section 1 Invitation to a Gathering";
+
+    bun[1  ]='<登場"とうじょう"><人物"じんぶつ">：山田（日本の<会社"かいしゃ">の<海外"かいがい"><事務所"じむしょ"><課長"かちょう">）　リー・ヤング（海外事務所の<社員"しゃいん">）';
+    trn[1  ]="Play characters: Yamada (Foreign office section manager of Japanese company) Lee Young (Employee of foreign office)";
+
+    bun[2  ]='<場面"ばめん">：<事務所"じむしょ">で<送別会"そうべつかい">への<招待"しょうたい">を<受ける"うける">';
+    trn[2  ]="Scene: Accepting an invitation to a farewell party in the office";
+
+    bun[3  ]='日本への<出発"しゅっぱつ">は<来月"らいげつ">の<三日"みっか">でしたね。';
+    trn[3  ]="Your departure to Japan was the 3rd of next month right?";
+
+    bun[4  ]='きのう<外務省"がいむしょう">からパスポートをもらいました。あしたは、日本<大使館"たいしかん">へ行って、ビザをもらおうと<思って"おもって">います。';
+    trn[4  ]="Yesterday I received my passport from the Ministry of Foreign Affairs. Tomorrow I'm thinking I'll go to the Japanese Embassy and receive my visa.";
+
+    bun[5  ]='<妻"つま">は子どもの<洋服"ようふく">を買いに行ったり、<持って"もって">いく<荷物"にもつ">をそろえたりしています。';
+    trn[5  ]="My wife is doing things like going to buy our child's clothes, and preparing the luggage we are taking.";
+
+    bun[6  ]='<実は"じつは">、<送別会"そうべつかい">をしたいと<思いまして"おもいまして">ね。';
+    trn[6  ]="Actually, I was thinking that I want to do a farewell party.";
+
+    bun[7  ]='<来週"らいしゅう">の水<曜日"ようび">はどうですか。';
+    trn[7  ]="How's Wednesday next week?";
+
+    bun[8  ]='水<曜日"ようび">は<都合"つごう">が<悪い"わるい">のですが……。';
+    trn[8  ]="Wednesday is not convenient but...";
+
+    bun[9  ]='<夕方"ゆうがた">5時からはどうですか。';
+    trn[9  ]="How about from 5 o'clock in the evening?";
+
+    bun[10 ]='<場所"ばしょ">は、セントラル・ホテル１<階"かい">のレストランにしようと<思って"おもって">います。';
+    trn[10 ]="As for the place, I am thinking on the 1st floor restaurant, Central Hotel.";
+
+    bun[11 ]='1.1-例 きのう<外務省"がいむしょう">からパスポートをもらいました。';
+    bun[12 ]='1.1-① きのう<大使館"たいしかん">からビザをもらいました。';
+    bun[13 ]='1.1-② きのう<銀行"ぎんこう">から<小切手"こぎって">をもらいました。';
+    bun[14 ]='1.1-③ きのう<学校"がっこう">から<証明書"しょうめいしょ">をもらいました。';
+    bun[15 ]='1.1-④ きのう<文部"もんぶ"><科学"かがく"><省"しょう">から<通知"つうち">をもらいました。';
+    bun[16 ]='1.1-⑤ きのう<事務所"じむしょ">から<旅費"りょひ">をもらいました。';
+    trn[11 ]="1.1-例 I received the passport from the Foreign Office yesterday.";
+    trn[12 ]="1.1-① I received the visa from the Embassy yesterday.";
+    trn[13 ]="1.1-② I received a cheque from the bank yesterday.";
+    trn[14 ]="1.1-③ I received a certificate from school yesterday.";
+    trn[15 ]="1.1-④ I received notice from the Ministry of Education, Culture, Sports, Science and Technology yesterday.";
+    trn[16 ]="1.1-⑤ I received travel expenses from the office yesterday.";
+
+    bun[17 ]='1.2-例 <来週"らいしゅう">の<水曜"すいよう">日はどうですか。';
+    bun[18 ]='1.2-① <今週"こんしゅう">の<土曜"どよう">日はどうですか。';
+    bun[19 ]='1.2-② <来週"らいしゅう">の<月曜"げつよう">日はどうですか。';
+    bun[20 ]='1.2-③ あしたの<4時"よじ">はどうですか。';
+    bun[21 ]='1.2-④ <今度"こんど">の<日曜"にちよう">日はどうですか。';
+    bun[22 ]='1.2-⑤ <今月"こんげつ">の<19日"じゅうくにち">はどうですか。';
+    trn[17 ]="1.2-例 How about Wednesday next week?";
+    trn[18 ]="1.2-① How about Saturday this week?";
+    trn[19 ]="1.2-② How about Monday next week?";
+    trn[20 ]="1.2-③ How about 4 o'clock tomorrow?";
+    trn[21 ]="1.2-④ How about this Sunday?";
+    trn[22 ]="1.2-⑤ How about the 19th this month?";
+
+    bun[23 ]='1.3-例 <水曜"すいよう">日は<都合"つごう">が<悪い"わるい">のですが。';
+    bun[24 ]='1.3-① <火曜"かよう">日は<都合"つごう">が<悪い"わるい">のですが。';
+    bun[25 ]='1.3-② あしたは<都合"つごう">が<悪い"わるい">のですが。';
+    bun[26 ]='1.3-③ <木曜"もくよう">日は<都合"つごう">が<悪い"わるい">のですが。';
+    bun[27 ]='1.3-④ <20日"はつか">は<都合"つごう">が<悪い"わるい">のですが。';
+    bun[28 ]='1.3-⑤ <今日"きょう">は<都合"つごう">が<悪い"わるい">のですが。';
+    trn[23 ]="1.3-例 Wednesday wouldn't be convenient, but...";
+    trn[24 ]="1.3-① Tuesday wouldn't be convenient, but...";
+    trn[25 ]="1.3-② Tomorrow wouldn't be convenient, but...";
+    trn[26 ]="1.3-③ Thursday wouldn't be convenient, but...";
+    trn[27 ]="1.3-④ The 20th wouldn't be convenient, but...";
+    trn[28 ]="1.3-⑤ Today wouldn't be convenient, but...";
+
+    bun[29 ]='1.4-例 <金曜"きんよう">日なら<都合"つごう">がいいのですが。';
+    bun[30 ]='1.4-① <土曜"どよう">日なら<都合"つごう">がいいのですが。';
+    bun[31 ]='1.4-② <月曜"げつよう">日か<火曜"かよう">日なら<都合"つごう">がいいのですが。';
+    bun[32 ]='1.4-③ <2日"ふつか">の<夕方"ゆうがた">なら<都合"つごう">がいいのですが。';
+    bun[33 ]='1.4-④ <23日"にじゅうさんにち">か<24日"にじゅうよっか">なら<都合"つごう">がいいのですが。';
+    bun[34 ]='1.4-⑤ あしたの5時ごろなら<都合"つごう">がいいのですが。';
+    trn[29 ]="1.4-例 If it's Friday then it would be convenient, ...";
+    trn[30 ]="1.4-① If it's Saturday then it would be convenient, ...";
+    trn[31 ]="1.4-② If it's Monday or Tuesday then it would be convenient, ...";
+    trn[32 ]="1.4-③ If it's the evening of the 2nd then it would be convenient, ...";
+    trn[33 ]="1.4-④ If it's the 23rd or 24th then it would be convenient, ...";
+    trn[34 ]="1.4-⑤ If it's tomorrow around 5 o'clock then it would be convenient, ...";
+
+    bun[35 ]='1.4-例 <妻"つま">は<子ども"こども">の<洋服"ようふく">を買いに行ったり、<荷物"にもつ">をそろえたりしています。';
+    bun[36 ]='1.4-① <料理"りょうり">を<作った"つくった">り、せんたくをしたりしています。';
+    bun[37 ]='1.4-② <妻"つま">は<新聞"しんぶん">を<読んだ"よんだ">り、テレビを<見た"みた">りしています。';
+    bun[38 ]='1.4-③ <妻"つま">はパスポートをもらいに行ったり、ビザをとりに行ったりしています。';
+    bun[39 ]='1.4-④ <妻"つま">は<電話"でんわ">をかけたり、<手紙"てがみ">を<書いた"かいた">りしています。';
+    bun[40 ]='1.4-⑤ <妻"つま">は<散歩"さんぽ">をしたり、<昼寝"ひるね">をしたりしています。';
+    trn[35 ]="1.4-例 My wife is doing things like going to buy our child's clothes, and preparing the luggage.";
+    trn[36 ]="1.4-① My wife is doing things like cooking, and laundry.";
+    trn[37 ]="1.4-② My wife is doing things like reading newspapers, and watching TV.";
+    trn[38 ]="1.4-③ My wife is doing things like going to get a passport, and going to pick up a visa.";
+    trn[39 ]="1.4-④ My wife is doing things like making telephone calls, and writing letters.";
+    trn[40 ]="1.4-⑤ My wife is doing things like walking, and taking a nap.";
+
+    bun[41 ]='2.1-例 日本への<出発"しゅっぱつ">は<来月"らいげつ"><3日"みっか">でしたね。';
+    bun[42 ]='2.1-例 日本への<到着"とうちゃく">は<来月"らいげつ"><3日"みっか">でしたね。';
+    bun[43 ]='2.1-① アメリカへの<出発"しゅっぱつ">は<来月"らいげつ"><4日"よっか">でしたね。';
+    bun[44 ]='2.1-② フランスへの<出発"しゅっぱつ">は<来週"らいしゅう">の<月曜"げつよう">日でしたね。';
+    bun[45 ]='2.1-③ 日本への<到着"とうちゃく">は<今月"こんげつ"><5日"いつか">でしたね。';
+    bun[46 ]='2.1-④ ロンドンへの<到着"とうちゃく">は<今週"こんしゅう">の<金曜"きんよう">日でしたね。';
+    bun[47 ]='2.1-⑤ <空港"くうこう">への<到着"とうちゃく">は<午後"ごご"><3時"さんじ">でしたね。';
+    trn[41 ]="2.1-例 Your departure to Japan was the 3rd next month right?";
+    trn[42 ]="2.1-例 Your arrival in Japan was the 3rd next month right?";
+    trn[43 ]="2.1-① Your departure to America was the 4th next month right?";
+    trn[44 ]="2.1-② Your departure to France was Monday next week right?";
+    trn[45 ]="2.1-③ Your arrival in Japan was the 5th this month right?";
+    trn[46 ]="2.1-④ Your arrival in London was Friday this week right?";
+    trn[47 ]="2.1-⑤ Your arrival at the airport was 3 o'clock in the afternoon right?";
+
+    bun[48 ]='2.2-例 <場所"ばしょ">はレストランにしようと<思って"おもって">います。';
+    bun[49 ]='2.2-① <会場"かいじょう">はホテルにしようと<思って"おもって">います。';
+    bun[50 ]='2.2-② <出発"しゅっぱつ">は<来月"らいげつ">にしようと<思って"おもって">います。';
+    bun[51 ]='2.2-③ <時間"じかん">は<5時"ごじ">からにしようと<思って"おもって">います。';
+    bun[52 ]='2.2-④ <曜日"ようび">は<金曜"きんよう">日にしようと<思って"おもって">います。';
+    bun[53 ]='2.2-⑤ <場所"ばしょ">は山田さんの<家"いえ">にしようと<思って"おもって">います。';
+    trn[48 ]="2.2-例 As for the place, I am thinking on a restaurant.";
+    trn[49 ]="2.2-① As for the meeting place, I am thinking on a hotel.";
+    trn[50 ]="2.2-② As for the departure, I am thinking on next month.";
+    trn[51 ]="2.2-③ As for the time, I am thinking on 5 o'clock onward.";
+    trn[52 ]="2.2-④ As for the day, I am thinking on Friday.";
+    trn[53 ]="2.2-⑤ As for the place, I am thinking on Mr Yamada's house.";
+
+    //bun[33 ]='<""><""><""><""><"">';
+    //trn[33 ]="";
+
+    bunN=bun.length;
+    trnN=bunN;
+  }
+
+  //============================================================================
+
+  var ptr = -1;
+  function pickSentence(method) {
+    if (method == 'next') {
+      ptr++;
+      if (ptr == bunN) {
+        ptr = 0;
+      }
+    } else if (method == 'prev') {
+      ptr--;
+      if (ptr == -1) {
+        ptr = bunN - 1;
+      }
+    } else if (method == 'rand') {
+      ptr=Math.floor(Math.random()*bunN);
+      if (ptr == bunN) ptr--; 
+    }
+    return ptr;
+  }
+
+  //============================================================================
+
+  function readTranslations() {
+  }
+
+/*
+かいごう	会合	(n,vs) a gathering; a get-together
+とうじょうじんぶつ	登場人物	(n) the characters in a play
+かいがい	海外	(n) foreign; abroad; overseas
+じむしょ	事務所	(n) office
+かちょう	課長	(n) section manager
+しゃいん	社員	(n) company employee
+ばめん	場面	(n) scene; setting (e.g., of novel)
+そうべつかい	送別会	(n) farewell party
+じゅんび		(n,vs) preparation; arrangements
+がいむしょう	外務省	(n) Ministry of Foreign Affairs
+パスポート		(n) passport
+ビザ		(n) visa
+つごう	都合	(adv,n) circumstances; convenience
+ばしょ	場所	(n) place; location
+おきかえ	置き換え	replacing one thing with another
+こぎって	小切手	(n) cheque
+しょうめいしょ	証明書	(n) certificate
+もんぶかがくしょう	文部科学省	(n) Ministry of Education, Culture, Sports, Science and Technology
+つうち	通知	(n,vs) notice; notification; information; communication; advice
+りょひ	旅費	(n) travel expenses
+こんしゅう	今週	(n-adv,n-t) this week
+ひるね	昼寝	(n,vs) afternoon nap
+いいかえ	言い換え	(n,vs) expression in different words
+とうちゃく	到着	(n,vs) arrival
+パーティー		(n) party
+クラスかい	クラス会	(n) class meeting; class reunion
+おもちゃ		(n) toy
+どっかい	読解	(n,vs) reading comprehension
+ごぜんちゅう	午前中	(n) in the morning; during the morning
+りゅうがく	留学	(n,vs) studying abroad
+けいざいがく	経済学	(n) economics
+けんしゅう	研修	(n,vs) training ; induction course
+きかん	期間	(n) length; period; period of time
+よてい	予定	(n,vs) plan; arrangement
+けんきゅうせい	研究生	(n) research student
+けいえいがく	経営学	(n) management studies
+ふさい	夫妻	(n) husband and wife; Mr & Mrs
+せんもん		(n) special subject of study
+ぶんしょう	文章	(n) composition; essay; article
+であるたい	である体	de aru form
+です・ますたい	です・ます体	desu/masu form
+リー・ヤング		Lee Young
+セントラル・ホテル		Central Hotel
+ロンドン		London
+そろえる		(v1,vt) (1) to arrange; to put in order; (2) to get (s.t.) ready
+まなぶ	学ぶ	(v5b) to study; to learn
+（～を～に）かえる		(v1,vt) to change (~ to ~)
+つれていく	連れて行く	(v5k-s) to take along
+じつは	実は	(adv,exp) as a matter of fact; to tell you the truth
+どうも（ありがとうございます）		(exp) Thank you (very much)
+（けんきゅうせい）として	（研究生）として	(conj,prt) in the capacity of; as (a research student)
+～ていく
+～ことになる
+～である		[form of copula]
+～か	～課	(n-suf) (1) section (in an organisation); (2) counter for lessons and chapters (of a book)
+*/
+
+  //============================================================================
+
+  function readGrammar() {
+    grmN=0;
+  }
+
+  //============================================================================
+
+  function mainLoop(method) {
+    bunIndex=pickSentence(method);
+    var bunText=bun[bunIndex];
+
+    document.getElementById('trnFrameText').innerHTML='';
+    document.getElementById('grmFrameText').innerHTML=''+bunIndex;
+    document.getElementById('chpFrameText').innerHTML='';
+
+    var bunRow='';
+    var refRow='';
+
+    var unmarked='';
+
+    var unmarkedFlag=true;
+    var compoundFlag=false;
+    var readingFlag=false;
+
+    var refChar;
+
+    var i, j;
+
+    for(i=0; i<maxWords; i++) {
+      compound[i]='';
+      reading[i]='';
+      meaning[i]='';
+      index[i]=-1;
+    }
+
+    var wordCount=0;
+
+    for(i=0; i<bunText.length; i++) {
+      var ch=bunText.substr(i,1);
+      if(ch=='<') {
+        if(unmarked!='') {
+          bunRow+='<td nowrap valign="top">'+unmarked+'</td>';
+          refRow+='<td nowrap valign="top"></td>';
+        }
+        unmarkedFlag=false;
+        compoundFlag=true;
+        readingFlag=false;
+      } else if(ch=='"' && !readingFlag) {
+        unmarkedFlag=false;
+        compoundFlag=false;
+        readingFlag=true;
+      } else if(ch=='"' && readingFlag) {
+        unmarkedFlag=false;
+        compoundFlag=false;
+        readingFlag=false;
+      } else if(ch=='>') {
+        index[wordCount]=getMeaning(wordCount);
+        if(index[wordCount]!=-1) {
+          meaning[wordCount]=dic.word[index[wordCount]]+'&nbsp;'+dic.meaning[index[wordCount]];
+        }
+
+        bunRow+='<td nowrap valign="top"><span id="bun'+wordCount+'">'+compound[wordCount]+'</span></td>';
+        switch(wordCount) {
+          case 0: refChar='①'; break;
+          case 1: refChar='②'; break;
+          case 2: refChar='③'; break;
+          case 3: refChar='④'; break;
+          case 4: refChar='⑤'; break;
+          case 5: refChar='⑥'; break;
+          case 6: refChar='⑦'; break;
+          case 7: refChar='⑧'; break;
+          case 8: refChar='⑨'; break;
+          case 9: refChar='⑩'; break;
+          default: refChar='○';
+        }
+        refRow+='<td nowrap valign="top" style="border-top-style:solid;border-top-color:black;">'+refChar+'</td>';
+        wordCount++;
+        unmarked='';
+        unmarkedFlag=true;
+        compoundFlag=false;
+        readingFlag=false;
+      } else if(ch!="\n") {
+        if(unmarkedFlag) {
+          unmarked+=ch;
+        } else if(compoundFlag) {
+          compound[wordCount]+=ch;
+        } else if(readingFlag) {
+          reading[wordCount]+=ch;
+        }
+      }
+    }
+
+    if(unmarked!='') {
+      bunRow+='<td nowrap valign="top">'+unmarked+'</td>';
+      refRow+='<td nowrap valign="top"></td>';
+    }
+
+    document.getElementById('bunFrameText').innerHTML='<table><tr>'+bunRow+'</tr><tr>'+refRow+'</tr></table>';
+
+    for (i=1; i<=maxWords; i++) {
+      document.getElementById('meaning'+i).innerHTML='';
+
+      if(i<=wordCount) {
+        document.getElementById('reading'+i).disabled=true;
+        document.getElementById('button'+i).disabled=false;
+        document.getElementById('reading'+i).style.border="1px black solid"
+        document.getElementById('button'+i).style.border="1px black solid"
+        document.getElementById('reading'+i).value='';
+      } else {
+        document.getElementById('reading'+i).value='';
+        document.getElementById('reading'+i).disabled=true;
+        document.getElementById('button'+i).disabled=true;
+        document.getElementById('reading'+i).style.border="1px white solid"
+        document.getElementById('button'+i).style.border="1px white solid"
+      }
+    }
+
+    //if(document.getElementById('reading1').disabled==false) document.getElementById('reading1').focus();
+
+  }
+
+  //============================================================================
+
+  function do_nothing() {}
+
+  //============================================================================
+
+  function processSubmit() {
+  }
+
+  //============================================================================
+
+  function revealMeaning() {
+    document.getElementById('trnFrameText').innerHTML='<table><tr><td>'+trn[bunIndex]+'</td></tr></table>';
+
+    var grammar='';
+
+    var readLine;
+    var grmIndex, trnIndex, sumIndex;
+    for(i=0; i<grmN; i++) {
+      readLine=grm[i];
+      grmIndex = readLine.replace(/^([^ ]*) .*$/, "$1");
+      trnIndex = trn[bunIndex].replace(/^([^ ]*)[^ ][^ ] .*$/, "$1");
+      sumIndex = trnIndex.replace(/^(.*)[-.][\d]*[abc]?$/, "$1");
+      //if(i >= 832) alert("revealMeaning(): i="+i+" grmIndex="+grmIndex+" trnIndex="+trnIndex+" sumIndex="+sumIndex+" readLine="+readLine);
+
+      if(grmIndex==trnIndex) {
+        readLine = grm[i].replace(/^[^ ]* (.*)$/, "$1");
+        grammar+='<tr><td>'+readLine+'</td></tr>';
+      } else if(grmIndex==sumIndex) {
+        document.getElementById('chpFrameText').innerHTML='<table><tr><td>'+readLine+'</td></tr></table>';
+      }
+    }
+    document.getElementById('grmFrameText').innerHTML='<table>'+grammar+'</table>';
+  }
+
+  //============================================================================
+
+  function reveal(i) {
+    document.getElementById('reading'+i).value=reading[i-1];
+    document.getElementById('meaning'+i).innerHTML=meaning[i-1];
+    document.getElementById('reading'+i).disabled=true;
+    document.getElementById('button'+i).style.border="1px white solid"
+    document.getElementById('button'+i).disabled=true;
+  }
+
+
+</script>
+
+
+
+
+
+
+
+
+<body>
+
+<div id="bunFrameText" class="scroll-box" style="margin:5px; border:1px solid #b0b0b0;background-color:#f3f3f3;font:12pt 'MS Gothic';overflow-x:auto;overflow-y:auto;height:60px;width:100%">
+</div>
+
+<form name="entryForm" action="javascript:revealMeaning();" method="POST" onsubmit="do_nothing();">
+<div style="margin:5px; border:1px solid #b0b0b0; background-color:#f3f3f3; width:100%">
+<table>
+<tr><td>①&nbsp;<INPUT type="button" id="button1"  value="Reveal" style="width:75px; border:1px black solid; margin:0px; padding:0px; color:green" onclick="reveal(1) "></td><td><INPUT type="text" id="reading1"  size="15" maxlength="30" style="width:125px; font:10pt Courier" value="" onchange="javascript:do_nothing()"></td><td id="meaning1"  style="width:75%; font:10pt 'MS Gothic'"></td></tr>
+<tr><td>②&nbsp;<INPUT type="button" id="button2"  value="Reveal" style="width:75px; border:1px black solid; margin:0px; padding:0px; color:green" onclick="reveal(2)" ></td><td><INPUT type="text" id="reading2"  size="15" maxlength="30" style="width:125px; font:10pt Courier" value="" onchange="javascript:do_nothing()"></td><td id="meaning2"  style="width:75%; font:10pt 'MS Gothic'"></td></tr>
+<tr><td>③&nbsp;<INPUT type="button" id="button3"  value="Reveal" style="width:75px; border:1px black solid; margin:0px; padding:0px; color:green" onclick="reveal(3)" ></td><td><INPUT type="text" id="reading3"  size="15" maxlength="30" style="width:125px; font:10pt Courier" value="" onchange="javascript:do_nothing()"></td><td id="meaning3"  style="width:75%; font:10pt 'MS Gothic'"></td></tr>
+<tr><td>④&nbsp;<INPUT type="button" id="button4"  value="Reveal" style="width:75px; border:1px black solid; margin:0px; padding:0px; color:green" onclick="reveal(4)" ></td><td><INPUT type="text" id="reading4"  size="15" maxlength="30" style="width:125px; font:10pt Courier" value="" onchange="javascript:do_nothing()"></td><td id="meaning4"  style="width:75%; font:10pt 'MS Gothic'"></td></tr>
+<tr><td>⑤&nbsp;<INPUT type="button" id="button5"  value="Reveal" style="width:75px; border:1px black solid; margin:0px; padding:0px; color:green" onclick="reveal(5)" ></td><td><INPUT type="text" id="reading5"  size="15" maxlength="30" style="width:125px; font:10pt Courier" value="" onchange="javascript:do_nothing()"></td><td id="meaning5"  style="width:75%; font:10pt 'MS Gothic'"></td></tr>
+<tr><td>⑥&nbsp;<INPUT type="button" id="button6"  value="Reveal" style="width:75px; border:1px black solid; margin:0px; padding:0px; color:green" onclick="reveal(6)" ></td><td><INPUT type="text" id="reading6"  size="15" maxlength="30" style="width:125px; font:10pt Courier" value="" onchange="javascript:do_nothing()"></td><td id="meaning6"  style="width:75%; font:10pt 'MS Gothic'"></td></tr>
+<tr><td>⑦&nbsp;<INPUT type="button" id="button7"  value="Reveal" style="width:75px; border:1px black solid; margin:0px; padding:0px; color:green" onclick="reveal(7)" ></td><td><INPUT type="text" id="reading7"  size="15" maxlength="30" style="width:125px; font:10pt Courier" value="" onchange="javascript:do_nothing()"></td><td id="meaning7"  style="width:75%; font:10pt 'MS Gothic'"></td></tr>
+<tr><td>⑧&nbsp;<INPUT type="button" id="button8"  value="Reveal" style="width:75px; border:1px black solid; margin:0px; padding:0px; color:green" onclick="reveal(8)" ></td><td><INPUT type="text" id="reading8"  size="15" maxlength="30" style="width:125px; font:10pt Courier" value="" onchange="javascript:do_nothing()"></td><td id="meaning8"  style="width:75%; font:10pt 'MS Gothic'"></td></tr>
+<tr><td>⑨&nbsp;<INPUT type="button" id="button9"  value="Reveal" style="width:75px; border:1px black solid; margin:0px; padding:0px; color:green" onclick="reveal(9)" ></td><td><INPUT type="text" id="reading9"  size="15" maxlength="30" style="width:125px; font:10pt Courier" value="" onchange="javascript:do_nothing()"></td><td id="meaning9"  style="width:75%; font:10pt 'MS Gothic'"></td></tr>
+<tr><td>⑩&nbsp;<INPUT type="button" id="button10" value="Reveal" style="width:75px; border:1px black solid; margin:0px; padding:0px; color:green" onclick="reveal(10)"></td><td><INPUT type="text" id="reading10" size="15" maxlength="30" style="width:125px; font:10pt Courier" value="" onchange="javascript:do_nothing()"></td><td id="meaning10" style="width:75%; font:10pt 'MS Gothic'"></td></tr>
+</table>
+</div>
+<div style="margin:5px; border:1px solid #b0b0b0; background-color:#f3f3f3; width:100%">
+<INPUT type="submit" value="Reveal Meaning" style="margin:5px; color:green">
+<INPUT type="button" value="Random" style="margin:5px; color:red" onclick="mainLoop('rand');">
+<INPUT type="button" value="&lt;" style="margin:5px; color:blue" onclick="mainLoop('prev');">
+<INPUT type="button" value="&gt;" style="margin:5px; color:blue" onclick="mainLoop('next');">
+</div>
+</form>
+
+<div id="trnFrameText" class="scroll-box" style="margin:5px; border:1px solid #b0b0b0;background-color:#f3f3f3;font:10pt 'MS Gothic';overflow-x:auto;overflow-y:auto;height:40px;width:100%">
+</div>
+
+<div id="grmFrameText" class="scroll-box" style="margin:5px; border:1px solid #b0b0b0;background-color:#f3f3f3;font:10pt 'MS Gothic';overflow-x:auto;overflow-y:auto;height:100px;width:100%">
+</div>
+
+<div id="chpFrameText" class="scroll-box" style="margin:5px; border:1px solid #b0b0b0;background-color:#f3f3f3;font:10pt 'MS Gothic';overflow-x:auto;overflow-y:auto;height:40px;width:100%">
+</div>
+
+</body>
+
+</html>
+
+<script type="text/javascript">
+  document.entryForm.reset();
+
+  readSentences();
+  readTranslations();
+  readGrammar();
+
+  mainLoop('next');
+</script>
