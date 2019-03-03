@@ -20,12 +20,12 @@
   var debug=!true;
 
   //---- Sentences Array
-  var bun=new Array(1000);
+  var bun=[];
   var bunN;
   var bunIndex;
 
   //---- Translations Array
-  var trn=new Array(1000);
+  var trn=[];
   var trnN;
 
   //---- Dictionary Array
@@ -881,12 +881,9 @@
     bun[833]='中学校の古い<校舎"こうしゃ">が<取り壊される"とりこわされる">そうだ。<思い出"おもいで">の校舎なので、わたしにとって<残念"ざんねん">なものがある。';
     bun[834]='<卒業"そつぎょう"><後"ご">はわたしだけ<村"むら">に<残って"のこって">、<友達"ともだち">はみんな<都会"とかい">に出て行ってしまうのだ。ちょっと<寂しい"さびしい">ものがある。';
     bun[835]='あの<若さ"わかさ">であのテクニック！<彼"かれ">の<演奏"えんそう">にはすごいものがある。';
-  }
 
-  //============================================================================
+    bunN=bun.length;
 
-  function readTranslations() {
-    trnN=836;
     trn[0  ]="1-1-① I don't know anything about that man.";
     trn[1  ]="1-1-② I'm thinking of doing some investigation into the history of this town.";
     trn[2  ]="1-1-③ This report about Japanese cultural history is done very well.";
@@ -1723,6 +1720,8 @@
     trn[833]="30-8-① I heard that the old junior high school building will be knocked down. I feel that for me it is rather regrettable because it is a memorable building.";
     trn[834]="30-8-② After graduation I alone will remain in the village and unfortunately all my friends will leave and go to the city. It will be rather lonely.";
     trn[835]="30-8-③ That youth and technique! His musical performance is rather amazing.";
+
+    trnN=bunN;
   }
 
   //============================================================================
@@ -2654,10 +2653,23 @@
 
   //============================================================================
 
-  function pickSentence() {
-    var i=Math.floor(Math.random()*bunN);
-    if(i==bunN) i--;
-    return i;
+  var ptr = -1;
+  function pickSentence(method) {
+    if (method == 'next') {
+      ptr++;
+      if (ptr == bunN) {
+        ptr = 0;
+      }
+    } else if (method == 'prev') {
+      ptr--;
+      if (ptr == -1) {
+        ptr = bunN - 1;
+      }
+    } else if (method == 'rand') {
+      ptr=Math.floor(Math.random()*bunN);
+      if (ptr == bunN) ptr--; 
+    }
+    return ptr;
   }
 
   //============================================================================
@@ -2851,7 +2863,9 @@
 </div>
 <div style="margin:5px; border:1px solid #b0b0b0; background-color:#f3f3f3; width:100%">
 <INPUT type="submit" value="Reveal Meaning" style="margin:5px; color:green">
-<INPUT type="button" value="Next Sentence" style="margin:5px; color:blue" onclick='mainLoop();'>
+<INPUT type="button" value="Random" style="margin:5px; color:red" onclick="mainLoop('rand');">
+<INPUT type="button" value="&lt;" style="margin:5px; color:blue" onclick="mainLoop('prev');">
+<INPUT type="button" value="&gt;" style="margin:5px; color:blue" onclick="mainLoop('next');">
 </div>
 </form>
 
@@ -2872,8 +2886,7 @@
   document.entryForm.reset();
 
   readSentences();
-  readTranslations();
   readGrammar();
 
-  mainLoop();
+  mainLoop('next');
 </script>
