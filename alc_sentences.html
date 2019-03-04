@@ -2668,6 +2668,10 @@
     } else if (method == 'rand') {
       ptr=Math.floor(Math.random()*bunN);
       if (ptr == bunN) ptr--; 
+    } else if (method == 'indx') {
+      ptr=document.getElementById('indx').value;
+      if (ptr >= bunN) ptr = bunN - 1;
+      if (ptr < 0) ptr = 0;
     }
     return ptr;
   }
@@ -2866,7 +2870,7 @@
 <INPUT type="button" value="Random" style="margin:5px; color:red" onclick="mainLoop('rand');">
 <INPUT type="button" value="&lt;" style="margin:5px; color:blue" onclick="mainLoop('prev');">
 <INPUT type="button" value="&gt;" style="margin:5px; color:blue" onclick="mainLoop('next');">
-<INPUT type="text" size="15" value="" style="margin:5px; color:purple" onchange="mainLoop('next');">
+<INPUT type="text" id="indx" size="5" value="" style="margin:5px; color:purple" onchange="mainLoop('indx');">
 </div>
 </form>
 
