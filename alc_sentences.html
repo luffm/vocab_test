@@ -2685,7 +2685,7 @@
     document.getElementById('trnFrameText').innerHTML='';
     document.getElementById('grmFrameText').innerHTML=''+bunIndex;
     document.getElementById('chpFrameText').innerHTML='';
-    document.getElementById('indx').innerHTML=bunIndex;
+    document.getElementById('indx').value=bunIndex;
 
     var bunRow='';
     var refRow='';
@@ -2867,7 +2867,7 @@
 </table>
 </div>
 <div style="margin:5px; border:1px solid #b0b0b0; background-color:#f3f3f3; width:100%">
-<INPUT type="button" value="Reveal Meaning" style="margin:5px; color:green">
+<INPUT type="button" value="Reveal Meaning" style="margin:5px; color:green" onclick="revealMeaning();>
 <INPUT type="button" value="Random" style="margin:5px; color:red" onclick="mainLoop('rand');">
 <INPUT type="button" value="&lt;" style="margin:5px; color:blue" onclick="mainLoop('prev');">
 <INPUT type="button" value="&gt;" style="margin:5px; color:blue" onclick="mainLoop('next');">
